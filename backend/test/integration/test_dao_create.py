@@ -1,4 +1,3 @@
-import unittest
 from unittest.mock import patch
 import pytest
 from pymongo import MongoClient
@@ -39,7 +38,7 @@ def sut(test_db_connection):
     with patch("src.util.dao.getValidator") as mock_validator:
         mock_validator.return_value = test_validator
         dao = DAO("test")
- 
+
         return dao
 
 # Testing the create method
