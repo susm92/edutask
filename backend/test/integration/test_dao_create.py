@@ -51,16 +51,15 @@ def test_create_user(sut):
     assert result['lastName'] == 'susmen'
     assert result['firstName'] is not 'Alle'
 
-# Testing the create method
-def test_create_user_two(sut):
+# Testing the to call on the wrong user
+def test_create_call_wrong_user(sut):
     valid_data = {"firstName": "susm", "lastName": "susmen", "email": "susm@gmail.com"}
     result = sut.create(valid_data)
     assert result is not None
-    assert result['firstName'] == 'susm'
-    assert result['lastName'] == 'susmen'
-    assert result['firstName'] is not 'Alle'
+    with pytest.raises(Exception):
+        assert result['firstName'] == 'Alle'
 
-# Testing the create twice
+# Testing the create method twice
 def test_create_user_two_users(sut):
     valid_data1 = {"firstName": "susm", "lastName": "susmen", "email": "susm@gmail.com"}
     valid_data2 = {"firstName": "Alle", "lastName": "Allen", "email": "alle@gmail.com"}
@@ -71,14 +70,7 @@ def test_create_user_two_users(sut):
     assert result1['firstName'] == 'susm'
     assert result2['firstName'] == 'Alle'
 
-# Testing the create method, but calling on wrong user
-def test_create_calling_faulty_user(sut):
-    valid_data = {"firstName": "susm", "lastName": "susmen", "email": "susm@gmail.com"}
-    result = sut.create(valid_data)
-    with pytest.raises(Exception):
-        assert result['firstName'] == 'Alle'
-
-# Testing inputting wrong format
+# Testing inputting wrong format into dict
 def test_create_wrong_user_format(sut):
     valid_data = {"firstName": "susm", "lastName": "susmen", "emailaddress": "susm@gmail.com"}
     with pytest.raises(Exception):
@@ -95,4 +87,3 @@ def test_create_minumum_properties(sut):
     valid_data = {"firstName": "Alle", "lastName": "", "email": ""}
     result = sut.create(valid_data)
     assert result is not None
-
