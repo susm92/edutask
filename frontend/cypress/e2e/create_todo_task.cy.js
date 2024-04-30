@@ -4,12 +4,12 @@ describe('Todo list', () => {
   let name // name of the user (firstName + ' ' + lastName)
   let email // email of the user
 
-  let taskId;
-  let taskTitle;
-  let taskDesc;
-  let taskStart;
-  let taskDue;
-  let taskUrl;
+  let t_id;
+  let t_title;
+  let t_desc;
+  let t_start;
+  let t_due;
+  let t_url;
 
   before(function () {
     cy.fixture("user.json")
@@ -37,12 +37,13 @@ describe('Todo list', () => {
           form: true,
           body: task
         }).then((response) => {
-          taskId = response.body._id;
-          taskTitle = task.title;
-          taskDesc = task.description;
-          taskStart = task.start;
-          taskDue = task.due;
-          taskUrl = task.url;
+          console.log(response)
+          t_id = response.body._id;
+          t_title = task.title;
+          t_desc = task.description;
+          t_start = task.start;
+          t_due = task.due;
+          t_url = task.url;
         })
       })
   })
@@ -53,8 +54,7 @@ describe('Todo list', () => {
       .find('input[type=text]')
       .type(email)
     cy.get("form")
-      .submit()
-      .then(() => cy.wait(1000));
+      .submit().then(() => cy.wait(1000));
     cy.get("img")
       .click();
   })
@@ -69,12 +69,12 @@ describe('Todo list', () => {
       cy.get(".popup")
         .find("input")
         .first()
-        .type("hello");
+        .type("test2");
       cy.get(".popup")
         .find("form")
         .submit();
       cy.get(".todo-item")
-        .should("contain.text", "hello")
+        .should("contain.text", "test2")
   })
 
   after(function () {
