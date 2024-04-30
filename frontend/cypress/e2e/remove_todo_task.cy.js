@@ -59,26 +59,12 @@ describe('Todo list', () => {
       .click({ force: true });
   })
 
-  it("task set active -> done", () => {
-      cy.get(".checker")
-        .click();
-      cy.get(".todo-item")
-        .find(".editable")
-        .invoke("css", "text-decoration")
-        .should("include", "line-through");
-  })
-
-  it("task set done -> active", () => {
+  it("remove task from video", () => {
     cy.get(".todo-item")
-      .find(".editable")
-      .invoke("css", "text-decoration")
-      .should("include", "line-through");
-    cy.get(".checker")
+      .find(".remover")
       .click();
     cy.get(".todo-item")
-      .find(".editable")
-      .invoke("css", "text-decoration")
-      .should("include", "none");
+      .should("not.exist");
   })
 
   after(function () {
