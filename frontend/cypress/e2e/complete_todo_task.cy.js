@@ -56,19 +56,29 @@ describe('Todo list', () => {
     cy.get("form")
       .submit();
     cy.get("img")
-      .click();
+      .click({ force: true });
   })
 
-  it("create todo", () => {
-      cy.get(".popup")
-        .find("input")
-        .first()
-        .type("test2");
-      cy.get(".popup")
-        .find("form")
-        .submit();
+  it("task set to done", () => {
+      cy.get(".checker")
+        .click();
       cy.get(".todo-item")
-        .should("contain.text", "test2")
+        .find(".editable")
+        .invoke("css", "text-decoration")
+        .should("include", "line-through");
+  })
+
+  it("task set done -> active", () => {
+    cy.get(".todo-item")
+      .find(".editable")
+      .invoke("css", "text-decoration")
+      .should("include", "line-through");
+    cy.get(".checker")
+      .click();
+    cy.get(".todo-item")
+      .find(".editable")
+      .invoke("css", "text-decoration")
+      .should("include", "none");
   })
 
   after(function () {
