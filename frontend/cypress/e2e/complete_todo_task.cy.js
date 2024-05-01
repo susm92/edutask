@@ -37,7 +37,7 @@ describe('Todo list', () => {
           form: true,
           body: task
         }).then((response) => {
-          console.log(response)
+          //console.log(response)
           t_id = response.body._id;
           t_title = task.title;
           t_desc = task.description;
@@ -59,7 +59,7 @@ describe('Todo list', () => {
       .click({ force: true });
   })
 
-  it("task set active -> done", () => {
+  it("todo set active -> done", () => {
       cy.get(".checker")
         .click();
       cy.get(".todo-item")
@@ -68,7 +68,7 @@ describe('Todo list', () => {
         .should("include", "line-through");
   })
 
-  it("task set done -> active", () => {
+  it("todo set done -> active", () => {
     cy.get(".todo-item")
       .find(".editable")
       .invoke("css", "text-decoration")

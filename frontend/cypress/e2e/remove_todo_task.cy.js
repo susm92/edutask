@@ -37,7 +37,7 @@ describe('Todo list', () => {
           form: true,
           body: task
         }).then((response) => {
-          console.log(response)
+          //console.log(response)
           t_id = response.body._id;
           t_title = task.title;
           t_desc = task.description;
@@ -59,7 +59,7 @@ describe('Todo list', () => {
       .click({ force: true });
   })
 
-  it("remove task from video", () => {
+  it("remove todo from video", () => {
     cy.get(".todo-item")
       .find(".remover")
       .click();
