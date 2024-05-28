@@ -56,7 +56,7 @@ describe('Todo list', () => {
     cy.get("form")
       .submit();
     cy.get("img")
-      .click();
+      .click({ force: true });
   })
 
   it("create todo", () => {
@@ -69,6 +69,18 @@ describe('Todo list', () => {
         .submit();
       cy.get(".todo-item")
         .should("contain.text", "test2")
+  })
+
+  it("check that add-button disabled", () => {
+    cy.get(".popup")
+      .find("input")
+      .first()
+      .clear();
+      cy.get(".popup")
+      .find("form")
+      .within(() => {
+        cy.get('input[type="submit"]').should('be.disabled');
+      });
   })
 
   after(function () {
