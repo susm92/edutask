@@ -10,6 +10,7 @@ class MockDAO:
         return [user for user in self.users if user['email'] == query['email']]
 
 class TestUserController:
+    @pytest.mark.unit
     def test_get_user_by_email_invalid_email(self):
         mock_dao = Mock(spec=MockDAO)
         
@@ -22,6 +23,7 @@ class TestUserController:
         # Asserting that ValueError is raised due to invalid email address sent
         assert str(exc_info.value) == 'Error: invalid email address'
 
+    @pytest.mark.unit
     def test_get_user_by_email_no_user(self):
         mock_dao = Mock(spec=MockDAO)
         mock_dao.find.return_value = []
@@ -29,9 +31,12 @@ class TestUserController:
         user_controller = UserController(mock_dao)
         
         # Trying to get user while sending an email that does not exist, expecting index error
-        with pytest.raises(IndexError):
-            user_controller.get_user_by_email('nonexistent@email.com')
+        #with pytest.raises(IndexError):
+        
+        # This has been changed, we should get None and not an error as before!
+        assert user_controller.get_user_by_email('nonexistent@email.com') == None
 
+    @pytest.mark.unit
     def test_get_user_by_email_invalid_email_type_int(self):
         mock_dao = Mock(spec=MockDAO)
         
@@ -40,7 +45,8 @@ class TestUserController:
         # Trying to get user by email while sending an integer, wrong type, expecting string
         with pytest.raises(TypeError):
             user_controller.get_user_by_email(123)
-
+    
+    @pytest.mark.unit
     def test_get_user_by_email_invalid_email_type_list(self):
         mock_dao = Mock(spec=MockDAO)
         
