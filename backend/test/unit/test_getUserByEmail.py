@@ -5,6 +5,7 @@ from src.util.dao import DAO
 
 
 class TestUserController:
+    @pytest.mark.unit
     @patch.object(DAO, 'find')
     def test_get_user_by_email_valid(self, mock_find):
         # Mocking the DAO
@@ -24,6 +25,7 @@ class TestUserController:
         assert result == mock_user
         mock_dao.find.assert_called_once_with({'email': mock_email})
 
+    @pytest.mark.unit
     @patch.object(DAO, 'find')
     def test_get_user_by_email_multiple_users(self, mock_find):
         # Mocking the DAO
@@ -45,6 +47,7 @@ class TestUserController:
         assert result == mock_user1
         mock_dao.find.assert_called_once_with({'email': mock_email})
 
+    @pytest.mark.unit
     @patch.object(DAO, 'find')
     def test_get_user_by_email_no_user(self, mock_find):
         # This test fails because the ground truth says that the method should return "None"
@@ -68,6 +71,7 @@ class TestUserController:
         assert result is None
         mock_dao.find.assert_called_once_with({'email': mock_email})
 
+    @pytest.mark.unit
     @patch.object(DAO, 'find')
     def test_get_user_by_email_invalid_email(self, mock_find):
         # Mocking the DAO
@@ -82,6 +86,7 @@ class TestUserController:
         with pytest.raises(ValueError):
             user_controller.get_user_by_email(mock_email)
 
+    @pytest.mark.unit
     def test_get_user_by_email_no_mocked_dao(self):
         # Mocking the DAO
         user_controller = UserController(dao=None)
