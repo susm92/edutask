@@ -92,3 +92,4 @@ class TestUserController:
         # calling the method with the mockd email and asserting that it raises an exception
         with pytest.raises(Exception):
             user_controller.get_user_by_email(mock_email)
+
