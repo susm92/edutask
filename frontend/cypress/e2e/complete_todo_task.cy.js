@@ -3,49 +3,35 @@ describe('Todo list', () => {
   let uid // user id
   let name // name of the user (firstName + ' ' + lastName)
   let email // email of the user
+  let t_title // task title
 
-  let t_id;
-  let t_title;
-  let t_desc;
-  let t_start;
-  let t_due;
-  let t_url;
-
-  before(function () {
-    cy.fixture("user.json")
-      .then((user) => {
-        cy.request({
-          method: "POST",
-          url: "http://localhost:5000/users/create",
-          form: true,
-          body: user
-        }).then((response) => {
-          uid = response.body._id.$oid;
-          name = user.firstName + " " + user.lastName;
-          email = user.email;
-        })
+  before( () => {
+    cy.fixture('user.json')
+    .then( (user) => {
+      cy.request({
+        method: 'POST',
+        url: 'http://localhost:5000/users/create',
+        form: true,
+        body: user
+      }).then((response) => {
+        uid = response.body._id.$oid
+        name = user.firstName + ' ' + user.lastName
+        email = user.email
+        cy.visit('http://localhost:3000')
+        cy.contains('div', 'Email Address')
+        .find('input[type=text]')
+        .type(email)
+        cy.get('form').submit();
+        cy.fixture('task.json')
+        .then((task) => {
+            t_title = task.title;
+            cy.get('#title').type(task.title);
+            cy.get('#url').type(task.url);
+            cy.get('form').submit();
+            cy.contains(t_title).click()
+        });
       })
-  })
-
-  before(function () {
-    cy.fixture("task.json")
-      .then((task) => {
-        task.userid = uid;
-        cy.request({
-          method: "POST",
-          url: "http://localhost:5000/tasks/create",
-          form: true,
-          body: task
-        }).then((response) => {
-          //console.log(response)
-          t_id = response.body._id;
-          t_title = task.title;
-          t_desc = task.description;
-          t_start = task.start;
-          t_due = task.due;
-          t_url = task.url;
-        })
-      })
+    })
   })
 
   beforeEach("login", () => {
@@ -55,17 +41,14 @@ describe('Todo list', () => {
       .type(email)
     cy.get("form")
       .submit();
-    cy.get("img")
-      .click({ force: true });
+    cy.contains(t_title)
+      .click();
   })
 
   it("todo set active -> done", () => {
-      cy.get(".checker")
-        .click();
-      cy.get(".todo-item")
-        .find(".editable")
-        .invoke("css", "text-decoration")
-        .should("include", "line-through");
+    cy.get(".todo-item")
+      .find(".checker")
+      .should("have.class", "unchecked").click();
   })
 
   it("todo set done -> active", () => {
