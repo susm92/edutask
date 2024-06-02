@@ -25,10 +25,14 @@ describe('Todo list', () => {
         cy.fixture('task.json')
         .then((task) => {
             t_title = task.title;
-            cy.get('#title').type(task.title);
-            cy.get('#url').type(task.url);
-            cy.get('form').submit();
-            cy.contains(t_title).click()
+            cy.get('#title')
+              .type(task.title);
+            cy.get('#url')
+              .type(task.url);
+            cy.get('form')
+              .submit();
+            cy.contains(t_title)
+              .click()
         });
       })
     })
