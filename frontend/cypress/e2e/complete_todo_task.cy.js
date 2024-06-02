@@ -48,7 +48,11 @@ describe('Todo list', () => {
   it("todo set active -> done", () => {
     cy.get(".todo-item")
       .find(".checker")
-      .should("have.class", "unchecked").click();
+      .should("have.class", "unchecked").click()
+    .then(() => {
+      cy.get(".checker")
+        .should("have.class", "checked")
+    });
   })
 
   it("todo set done -> active", () => {
